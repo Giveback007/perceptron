@@ -1,9 +1,9 @@
-import * as p5 from "p5";
+import * as p5 from 'p5';
 import { Point } from "./point";
 import { Perceptron } from "./perceptron";
 import { params } from "./params";
 
-const percep = new Perceptron();
+const percep = new Perceptron(0.002);
 const points = Array(100).fill(0)
     .map(() => new Point(params.size, params.size));
 
@@ -46,4 +46,4 @@ const sketch = (p: p5) => {
     };
 };
 // -- // -- // -- // // -- // -- // -- //
-new p5(sketch);
+const draw: p5 = new p5(sketch);

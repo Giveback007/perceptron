@@ -53,5 +53,8 @@ module.exports = {
         // For HMR, makes it easier to see which dependencies are being patched
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
-    ]
+    ],
+    externals: {
+        // "p5": "p5"
+    }
 }
