@@ -3,39 +3,38 @@ import { Point } from "./point";
 import { Perceptron } from "./perceptron";
 import { params } from "./params";
 
-const percep = new Perceptron(0.002);
-const points = Array(100).fill(0)
-    .map(() => new Point(params.size, params.size));
+const { canvasSize, learningRate, pointSize, numOfPoints } = params;
+
+const percep = new Perceptron(learningRate);
+const points = Array(numOfPoints).fill(0).map(() => new Point());
+
+const f = (x: number) => 3 * x + 2;
+
+const lp1 = new Point(1, 1);
+const lp2 = new Point(-1, -1);
 
 // -- // -- // -- // // -- // -- // -- //
-const sketch = (p: p5) => {
+new p5((p5: p5) => {
 
     let trIdx = -1;
 
-    p.setup = () => {
-        p.createCanvas(params.size, params.size);
+    p5.setup = () => {
+        p5.createCanvas(canvasSize, canvasSize);
     };
 
-    p.draw = () => {
-        p.background(255);
-        p.stroke(0, 0, 0);
-        p.line(0, 0, p.width, p.height);
-        points.forEach((pt) => pt.show(p));
+    p5.draw = () => {
+        p5.background(255);
+        p5.stroke(0, 0, 0);
 
-        points.forEach((pt, idx) => {
-            const inputs = [pt.x, pt.y];
-            const target = pt.label;
+        p5.line(lp1.xCords(), lp1.yCords(), lp2.xCords(), lp2.yCords());
 
-            // percep.train(inputs, target);
-            const guess = percep.guess(inputs);
-            if (guess === target) {
-                p.fill(0, 255, 0);
-            } else {
-                p.fill(255, 0, 0);
-            }
+        p5.stroke(0, 0, 255);
+        p5.ellipse(lp1.xCords(), lp1.yCords(), 20, 20);
+        p5.ellipse(lp2.xCords(), lp2.yCords(), 20, 20);
 
-            p.noStroke();
-            p.ellipse(pt.x, pt.y, 6, 6);
+        points.forEach((pt) => {
+            pt.show(p5);
+            drawGuess(p5, pt);
         });
 
         trIdx = trIdx >= points.length - 1 ? 0 : trIdx + 1;
@@ -44,6 +43,18 @@ const sketch = (p: p5) => {
         percep.train([tr.x, tr.y], tr.label);
 
     };
-};
+})
 // -- // -- // -- // // -- // -- // -- //
-const draw: p5 = new p5(sketch);
+
+function drawGuess(p5: p5, pt: Point) {
+    const inputs = [pt.x, pt.y];
+    const target = pt.label;
+
+    const guess = percep.guess(inputs);
+
+    guess === target ? 
+        p5.fill(0, 255, 0) : p5.fill(255, 0, 0);
+
+    p5.noStroke(); 
+    p5.ellipse(pt.xCords(), pt.yCords(), pointSize / 2);
+}

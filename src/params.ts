@@ -1,4 +1,7 @@
 export const params = {
-    size: 200,
+    canvasSize: 450,
     log: false,
+    pointSize: 15,
+    learningRate: 0.0025,
+    numOfPoints: 125,
 }

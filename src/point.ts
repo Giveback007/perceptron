@@ -1,21 +1,28 @@
-import { random } from "./lib";
+import { params } from './params';
+import { random, map } from "./lib";
+
+const { pointSize, canvasSize } = params;
 
 export class Point {
+    label: 1 | -1;
+
     x: number;
     y: number;
 
-    label: 1 | -1;
-
-    constructor(max_x, max_y) {
-        this.x = random(0, max_x);
-        this.y = random(0, max_y);
+    constructor(x?: number, y?: number) {
+        this.x = x !== undefined ? x : random(-1, 1);
+        this.y = y !== undefined ? y : random(-1, 1);
 
         this.label = this.y > this.x ? 1 : -1;
     }
 
-    show(draw) {
-        draw.stroke(0, 0, 0);
-        this.label === 1 ? draw.fill(255, 255, 255) : draw.fill(0, 0, 0);
-        draw.ellipse(this.x, this.y, 8, 8);
+    xCords = () => map(this.x, -1, 1, 0, canvasSize);
+    yCords = () => map(this.y, -1, 1, canvasSize, 0);
+
+    show(p5: p5) {
+        p5.stroke(0, 0, 0);
+        this.label === 1 ? p5.fill(0, 0, 0) : p5.fill(255, 255, 255);
+        
+        p5.ellipse(this.xCords(), this.yCords(), pointSize, pointSize);
     }
 }
