@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "code . && npm run webpack-serve",
-    "webpack-serve": "node_modules/.bin/webpack-dev-server",
+    "webpack-serve": "node_modules/.bin/webpack-dev-server --open",
     "webpack": "node_modules/.bin/webpack"
   },
   "author": "",

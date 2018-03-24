@@ -10,7 +10,7 @@
         "ordered-imports": [false],
         "object-literal-key-quotes": [false],
         "no-console": false,
-        "max-classes-per-file": false
+        // "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
