@@ -1,5 +1,5 @@
 import { params } from './params';
-import { random, map } from "./lib";
+import { random, map, lineY } from "./lib";
 
 const { pointSize, canvasSize } = params;
 
@@ -8,12 +8,13 @@ export class Point {
 
     x: number;
     y: number;
+    bias: 1 = 1;
 
     constructor(x?: number, y?: number) {
         this.x = x !== undefined ? x : random(-1, 1);
         this.y = y !== undefined ? y : random(-1, 1);
 
-        this.label = this.y > this.x ? 1 : -1;
+        this.label = this.y > lineY(this.x) ? 1 : -1;
     }
 
     xCords = () => map(this.x, -1, 1, 0, canvasSize);
